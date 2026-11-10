@@ -8,6 +8,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Firebase App y Realtime Database -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -29,7 +32,7 @@
 </head>
 <body class="h-full flex flex-col text-slate-800 bg-white relative min-h-screen overflow-x-hidden selection:bg-purple-500 selection:text-white">
 
-    <!-- FONDO ESTILO ACADEMIUM (ILUSTRACIÓN ESPACIAL EN DERECHA Y BLOB EN IZQUIERDA) -->
+    <!-- FONDO ESTILO ACADEMIUM -->
     <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <!-- Blob suave inferior izquierdo -->
         <div class="absolute -bottom-20 -left-20 w-96 h-96 bg-[#f4e8ff] rounded-full blur-2xl opacity-80"></div>
@@ -173,7 +176,7 @@
                 </div>
 
                 <!-- BOTÓN SUBMIT -->
-                <button type="submit" class="w-full bg-[#6100e0] hover:bg-[#5200bd] text-white text-xs font-bold py-3.5 rounded-xl shadow-md transition transform active:scale-95 flex items-center justify-center gap-2 mt-2">
+                <button type="submit" id="btnSubmit" class="w-full bg-[#6100e0] hover:bg-[#5200bd] text-white text-xs font-bold py-3.5 rounded-xl shadow-md transition transform active:scale-95 flex items-center justify-center gap-2 mt-2">
                     <i class="fa-solid fa-paper-plane"></i> Enviar respuesta
                 </button>
             </form>
@@ -196,13 +199,40 @@
         © 2026 Desarrollado por Soluciones Integrales OMNISOFT Cía. Ltda.
     </footer>
 
+    <!-- LÓGICA DE FIREBASE -->
     <script>
+        // Configuración e inicialización de Firebase
+        const firebaseConfig = {
+            databaseURL: "https://edusync-c85df-default-rtdb.firebaseio.com/"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // Guardar respuestas en Firebase al enviar
         document.getElementById('formEncuesta').addEventListener('submit', function(e) {
             e.preventDefault();
-            document.getElementById('formEncuesta').style.display = 'none';
-            document.getElementById('mensaje').classList.remove('hidden');
+            
+            const btn = document.getElementById('btnSubmit');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Guardando...';
+
+            const notaSeleccionada = document.querySelector('input[name="nota"]:checked');
+
+            db.ref('encuestas').push({
+                rol: document.getElementById('rol').value,
+                nota: notaSeleccionada ? notaSeleccionada.value : "N/A",
+                funcion: document.getElementById('funcion').value,
+                comentario: document.getElementById('comentario').value || "Sin comentarios",
+                fecha: new Date().toLocaleString()
+            }).then(() => {
+                document.getElementById('formEncuesta').style.display = 'none';
+                document.getElementById('mensaje').classList.remove('hidden');
+            }).catch((err) => {
+                alert("Error al enviar la respuesta. Intenta de nuevo.");
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Enviar respuesta';
+            });
         });
     </script>
-
 </body>
 </html>
