@@ -102,7 +102,7 @@
             <!-- FORMULARIO -->
             <form id="formEncuesta" class="space-y-4 text-xs">
                 
-                <!-- CAMPO 1 (OPCIÓN AGREGADA) -->
+                <!-- CAMPO 1 (CON OPCIÓN DE PADRE DE FAMILIA) -->
                 <div class="space-y-1.5">
                     <label for="rol" class="block font-bold text-slate-700">1. Rol en la institución:</label>
                     <select id="rol" required class="w-full bg-[#eef4ff] border border-blue-200 text-slate-800 text-xs rounded-xl p-3 font-semibold outline-none focus:ring-2 focus:ring-[#6b00d7] transition">
@@ -114,7 +114,7 @@
                     </select>
                 </div>
 
-                <!-- CAMPO 2 (ESTRELLAS REESTILIZADAS) -->
+                <!-- CAMPO 2 (CALIFICACIÓN POR ESTRELLAS) -->
                 <div class="space-y-1.5">
                     <label class="block font-bold text-slate-700">2. Calificación del prototipo:</label>
                     <div class="grid grid-cols-5 gap-2 bg-[#eef4ff] p-2 rounded-xl border border-blue-200">
@@ -192,7 +192,7 @@
         © 2026 Desarrollado por Soluciones Integrales OMNISOFT Cía. Ltda.
     </footer>
 
-    <!-- LÓGICA DE FIREBASE -->
+    <!-- LÓGICA DE FIREBASE Y TELEMETRÍA -->
     <script>
         const firebaseConfig = {
             databaseURL: "https://edusync-c85df-default-rtdb.firebaseio.com/"
