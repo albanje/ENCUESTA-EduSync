@@ -34,30 +34,22 @@
 
     <!-- FONDO ESTILO ACADEMIUM -->
     <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <!-- Blob suave inferior izquierdo -->
         <div class="absolute -bottom-20 -left-20 w-96 h-96 bg-[#f4e8ff] rounded-full blur-2xl opacity-80"></div>
         
-        <!-- Ilustración Ola Púrpura Espacial Derecha -->
         <div class="absolute top-16 right-0 w-full lg:w-[55%] h-[calc(100vh-4rem)] flex justify-end items-center opacity-25 lg:opacity-100 transition-opacity">
             <svg class="w-full h-full max-h-[850px] object-cover" viewBox="0 0 700 700" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Gran Mancha Morada Orgánica -->
                 <path d="M650 100C720 200 680 350 640 480C600 610 520 680 380 660C240 640 180 520 210 410C240 300 320 260 370 190C420 120 580 0 650 100Z" fill="url(#academium-grad)" />
-                
-                <!-- Ondas Espaciales -->
                 <path d="M250 280 Q 450 180, 620 320 T 500 550" stroke="white" stroke-width="6" stroke-linecap="round" opacity="0.35" fill="none"/>
                 <path d="M300 220 Q 500 140, 660 260" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.25" fill="none"/>
                 
-                <!-- Planetas y Cuerpos 3D -->
                 <circle cx="580" cy="180" r="35" fill="#e9d5ff" opacity="0.7"/>
                 <circle cx="595" cy="170" r="12" fill="#c084fc" opacity="0.9"/>
                 <circle cx="280" cy="490" r="22" fill="#f472b6" opacity="0.8"/>
                 <rect x="520" y="440" width="28" height="28" rx="6" transform="rotate(25 520 440)" fill="#60a5fa" opacity="0.8"/>
                 
-                <!-- Estrellas -->
                 <path d="M480 120 L484 130 L494 134 L484 138 L480 148 L476 138 L466 134 L476 130 Z" fill="white" opacity="0.9"/>
                 <path d="M320 360 L323 367 L330 370 L323 373 L320 380 L317 373 L310 370 L317 367 Z" fill="white" opacity="0.8"/>
                 
-                <!-- Avatar VR -->
                 <g class="animate-float" transform="translate(320, 260) scale(1.1)">
                     <path d="M60 140 C40 120, 20 100, -10 110 C-20 115, -10 130, 10 130 C30 130, 50 145, 70 160 Z" fill="#38bdf8"/>
                     <path d="M140 130 C170 145, 200 130, 220 150 C225 155, 215 165, 200 160 C180 155, 150 160, 130 145 Z" fill="#38bdf8"/>
@@ -201,14 +193,12 @@
 
     <!-- LÓGICA DE FIREBASE -->
     <script>
-        // Configuración e inicialización de Firebase
         const firebaseConfig = {
             databaseURL: "https://edusync-c85df-default-rtdb.firebaseio.com/"
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // Guardar respuestas en Firebase al enviar
         document.getElementById('formEncuesta').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -218,12 +208,30 @@
 
             const notaSeleccionada = document.querySelector('input[name="nota"]:checked');
 
+            // Recopilación de metadatos técnicos del navegador
+            const esMóvil = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+            const resolucion = `${window.screen.width}x${window.screen.height}`;
+            const idioma = navigator.language || 'Desconocido';
+            const zonaHoraria = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Desconocida';
+            const orientacion = window.screen.orientation ? window.screen.orientation.type : 'N/A';
+
             db.ref('encuestas').push({
+                // Datos del formulario
                 rol: document.getElementById('rol').value,
                 nota: notaSeleccionada ? notaSeleccionada.value : "N/A",
                 funcion: document.getElementById('funcion').value,
                 comentario: document.getElementById('comentario').value || "Sin comentarios",
-                fecha: new Date().toLocaleString()
+                fecha: new Date().toLocaleString(),
+                
+                // Metadatos de usabilidad del dispositivo
+                telemetria: {
+                    dispositivo: esMóvil ? "Móvil / Tablet" : "Escritorio / Laptop",
+                    resolucion: resolucion,
+                    idioma: idioma,
+                    zonaHoraria: zonaHoraria,
+                    orientacion: orientacion,
+                    userAgent: navigator.userAgent
+                }
             }).then(() => {
                 document.getElementById('formEncuesta').style.display = 'none';
                 document.getElementById('mensaje').classList.remove('hidden');
