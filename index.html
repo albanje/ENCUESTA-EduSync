@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-white">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuesta EduSync - Academium</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(3deg); }
+        }
+        .animate-float { animation: floatSlow 6s ease-in-out infinite; }
+
+        /* Estilo personalizado para calificación por estrellas */
+        .rating-star-input:checked + label {
+            background-color: #fef3c7;
+            border-color: #f59e0b;
+            color: #d97706;
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col text-slate-800 bg-white relative min-h-screen overflow-x-hidden selection:bg-purple-500 selection:text-white">
+
+    <!-- FONDO ESTILO ACADEMIUM (ILUSTRACIÓN ESPACIAL EN DERECHA Y BLOB EN IZQUIERDA) -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <!-- Blob suave inferior izquierdo -->
+        <div class="absolute -bottom-20 -left-20 w-96 h-96 bg-[#f4e8ff] rounded-full blur-2xl opacity-80"></div>
+        
+        <!-- Ilustración Ola Púrpura Espacial Derecha -->
+        <div class="absolute top-16 right-0 w-full lg:w-[55%] h-[calc(100vh-4rem)] flex justify-end items-center opacity-25 lg:opacity-100 transition-opacity">
+            <svg class="w-full h-full max-h-[850px] object-cover" viewBox="0 0 700 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Gran Mancha Morada Orgánica -->
+                <path d="M650 100C720 200 680 350 640 480C600 610 520 680 380 660C240 640 180 520 210 410C240 300 320 260 370 190C420 120 580 0 650 100Z" fill="url(#academium-grad)" />
+                
+                <!-- Ondas Espaciales -->
+                <path d="M250 280 Q 450 180, 620 320 T 500 550" stroke="white" stroke-width="6" stroke-linecap="round" opacity="0.35" fill="none"/>
+                <path d="M300 220 Q 500 140, 660 260" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.25" fill="none"/>
+                
+                <!-- Planetas y Cuerpos 3D -->
+                <circle cx="580" cy="180" r="35" fill="#e9d5ff" opacity="0.7"/>
+                <circle cx="595" cy="170" r="12" fill="#c084fc" opacity="0.9"/>
+                <circle cx="280" cy="490" r="22" fill="#f472b6" opacity="0.8"/>
+                <rect x="520" y="440" width="28" height="28" rx="6" transform="rotate(25 520 440)" fill="#60a5fa" opacity="0.8"/>
+                
+                <!-- Estrellas -->
+                <path d="M480 120 L484 130 L494 134 L484 138 L480 148 L476 138 L466 134 L476 130 Z" fill="white" opacity="0.9"/>
+                <path d="M320 360 L323 367 L330 370 L323 373 L320 380 L317 373 L310 370 L317 367 Z" fill="white" opacity="0.8"/>
+                
+                <!-- Avatar VR -->
+                <g class="animate-float" transform="translate(320, 260) scale(1.1)">
+                    <path d="M60 140 C40 120, 20 100, -10 110 C-20 115, -10 130, 10 130 C30 130, 50 145, 70 160 Z" fill="#38bdf8"/>
+                    <path d="M140 130 C170 145, 200 130, 220 150 C225 155, 215 165, 200 160 C180 155, 150 160, 130 145 Z" fill="#38bdf8"/>
+                    <path d="M50 130 L150 120 L160 180 L40 190 Z" fill="#0284c7"/>
+                    <circle cx="100" cy="90" r="26" fill="#1e1b4b"/>
+                    <rect x="80" y="80" width="42" height="20" rx="8" fill="#f43f5e"/>
+                    <rect x="84" y="84" width="34" height="12" rx="5" fill="#38bdf8" opacity="0.9"/>
+                </g>
+
+                <defs>
+                    <linearGradient id="academium-grad" x1="200" y1="50" x2="680" y2="650" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#8b5cf6" />
+                        <stop offset="45%" stop-color="#6b00d7" />
+                        <stop offset="100%" stop-color="#4c0099" />
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
+    </div>
+
+    <!-- HEADER ACADEMIUM -->
+    <header class="bg-[#6b00d7] text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between relative z-10">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white font-bold text-xl border border-white/20">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="font-extrabold text-xl tracking-tight text-white">Academium</span>
+                    <span class="text-xs bg-white/20 text-purple-100 px-2.5 py-0.5 rounded-full font-medium">Feedback ABP</span>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <span class="text-xs font-black text-amber-300 tracking-wider hover:text-amber-200 cursor-pointer uppercase py-1 px-3 rounded hover:bg-white/10 transition">INICIO</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENEDOR DE LA ENCUESTA -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 flex items-center justify-start relative z-10">
+        
+        <div class="w-full max-w-md bg-white/95 backdrop-blur-md rounded-2xl p-6 sm:p-8 border border-purple-100 shadow-xl space-y-6">
+            
+            <div class="text-center space-y-1">
+                <h2 class="font-extrabold text-2xl text-slate-900 tracking-tight">Evaluación <span class="text-[#a824fd]">EduSync</span></h2>
+                <p class="text-xs text-slate-500 font-medium">Prototipo ABP 2026</p>
+            </div>
+
+            <!-- FORMULARIO -->
+            <form id="formEncuesta" class="space-y-4 text-xs">
+                
+                <!-- CAMPO 1 -->
+                <div class="space-y-1.5">
+                    <label for="rol" class="block font-bold text-slate-700">1. Rol en la institución:</label>
+                    <select id="rol" required class="w-full bg-[#eef4ff] border border-blue-200 text-slate-800 text-xs rounded-xl p-3 font-semibold outline-none focus:ring-2 focus:ring-[#6b00d7] transition">
+                        <option value="">-- Seleccionar --</option>
+                        <option value="Docente">Docente / Profesor</option>
+                        <option value="Jurado">Evaluador / Jurado</option>
+                        <option value="Estudiante">Estudiante</option>
+                    </select>
+                </div>
+
+                <!-- CAMPO 2 (ESTRELLAS REESTILIZADAS) -->
+                <div class="space-y-1.5">
+                    <label class="block font-bold text-slate-700">2. Calificación del prototipo:</label>
+                    <div class="grid grid-cols-5 gap-2 bg-[#eef4ff] p-2 rounded-xl border border-blue-200">
+                        <div class="text-center">
+                            <input type="radio" name="nota" id="star-1" value="1" required class="hidden rating-star-input">
+                            <label for="star-1" class="flex flex-col items-center justify-center p-2 rounded-lg border border-transparent bg-white cursor-pointer hover:bg-amber-50 font-bold text-slate-700 transition">
+                                <i class="fa-solid fa-star text-amber-400 mb-0.5"></i> 1★
+                            </label>
+                        </div>
+                        <div class="text-center">
+                            <input type="radio" name="nota" id="star-2" value="2" class="hidden rating-star-input">
+                            <label for="star-2" class="flex flex-col items-center justify-center p-2 rounded-lg border border-transparent bg-white cursor-pointer hover:bg-amber-50 font-bold text-slate-700 transition">
+                                <i class="fa-solid fa-star text-amber-400 mb-0.5"></i> 2★
+                            </label>
+                        </div>
+                        <div class="text-center">
+                            <input type="radio" name="nota" id="star-3" value="3" class="hidden rating-star-input">
+                            <label for="star-3" class="flex flex-col items-center justify-center p-2 rounded-lg border border-transparent bg-white cursor-pointer hover:bg-amber-50 font-bold text-slate-700 transition">
+                                <i class="fa-solid fa-star text-amber-400 mb-0.5"></i> 3★
+                            </label>
+                        </div>
+                        <div class="text-center">
+                            <input type="radio" name="nota" id="star-4" value="4" class="hidden rating-star-input">
+                            <label for="star-4" class="flex flex-col items-center justify-center p-2 rounded-lg border border-transparent bg-white cursor-pointer hover:bg-amber-50 font-bold text-slate-700 transition">
+                                <i class="fa-solid fa-star text-amber-400 mb-0.5"></i> 4★
+                            </label>
+                        </div>
+                        <div class="text-center">
+                            <input type="radio" name="nota" id="star-5" value="5" class="hidden rating-star-input">
+                            <label for="star-5" class="flex flex-col items-center justify-center p-2 rounded-lg border border-transparent bg-white cursor-pointer hover:bg-amber-50 font-bold text-slate-700 transition">
+                                <i class="fa-solid fa-star text-amber-400 mb-0.5"></i> 5★
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CAMPO 3 -->
+                <div class="space-y-1.5">
+                    <label for="funcion" class="block font-bold text-slate-700">3. Módulo más útil:</label>
+                    <select id="funcion" required class="w-full bg-[#eef4ff] border border-blue-200 text-slate-800 text-xs rounded-xl p-3 font-semibold outline-none focus:ring-2 focus:ring-[#6b00d7] transition">
+                        <option value="">-- Seleccionar --</option>
+                        <option value="Anti-Saturación">Calendario Anti-Saturación</option>
+                        <option value="Minutas">Gestor de Minutas</option>
+                        <option value="Canales">Matriz de Canales Oficiales</option>
+                    </select>
+                </div>
+
+                <!-- CAMPO 4 -->
+                <div class="space-y-1.5">
+                    <label for="comentario" class="block font-bold text-slate-700">4. Recomendación o comentario:</label>
+                    <textarea id="comentario" rows="3" placeholder="Escribe tu opinión aquí..." class="w-full bg-[#eef4ff] border border-blue-200 text-slate-800 text-xs rounded-xl p-3 outline-none focus:ring-2 focus:ring-[#6b00d7] transition"></textarea>
+                </div>
+
+                <!-- BOTÓN SUBMIT -->
+                <button type="submit" class="w-full bg-[#6100e0] hover:bg-[#5200bd] text-white text-xs font-bold py-3.5 rounded-xl shadow-md transition transform active:scale-95 flex items-center justify-center gap-2 mt-2">
+                    <i class="fa-solid fa-paper-plane"></i> Enviar respuesta
+                </button>
+            </form>
+
+            <!-- MENSAJE DE ÉXITO -->
+            <div id="mensaje" class="hidden text-center p-6 bg-emerald-50 border border-emerald-200 rounded-2xl text-emerald-900 space-y-2">
+                <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-xl">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <h3 class="font-bold text-base">¡Evaluación Registrada!</h3>
+                <p class="text-xs text-emerald-700">Muchas gracias por colaborar con tus respuestas para el prototipo EduSync.</p>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- FOOTER ACADEMIUM -->
+    <footer class="mt-auto bg-white/80 border-t border-purple-100 py-4 text-center text-xs text-slate-500 relative z-10">
+        © 2026 Desarrollado por Soluciones Integrales OMNISOFT Cía. Ltda.
+    </footer>
+
+    <script>
+        document.getElementById('formEncuesta').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('formEncuesta').style.display = 'none';
+            document.getElementById('mensaje').classList.remove('hidden');
+        });
+    </script>
+
+</body>
+</html>
